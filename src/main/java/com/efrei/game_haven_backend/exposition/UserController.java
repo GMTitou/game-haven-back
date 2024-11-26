@@ -52,24 +52,20 @@ public class UserController {
             Object principal = authentication.getPrincipal();
 
             String email = null;
-            String telephone = "Non disponible";
-            String prenom = "Non disponible";
-            String nom = "Non disponible";
-            String status = "Non disponible";
+            String nom = null;
+            String prenom = null;
+            String telephone = null;
+            Status status = null;
 
-            if (principal instanceof User) {
-                User userDetails = (User) principal;
-                email = userDetails.getEmail();
-                telephone = userDetails.getTelephone() != null ? userDetails.getTelephone() : telephone;
-                prenom = userDetails.getPrenom() != null ? userDetails.getPrenom() : prenom;
-                nom = userDetails.getNom() != null ? userDetails.getNom() : nom;
-                status = userDetails.getStatus() != null ? String.valueOf(userDetails.getStatus()) : status;
-            } else if (principal instanceof org.springframework.security.core.userdetails.User) {
+            if (principal instanceof org.springframework.security.core.userdetails.User) {
                 email = ((org.springframework.security.core.userdetails.User) principal).getUsername();
-            }
+                User fullUser = userRepository.findByEmail(email)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
 
-            if (email == null) {
-                throw new RuntimeException("Erreur : email non trouvé pour l'utilisateur authentifié.");
+                nom = fullUser.getNom();
+                prenom = fullUser.getPrenom();
+                telephone = fullUser.getTelephone();
+                status = fullUser.getStatus();
             }
 
             String token = jwtService.generateToken(authentication);
@@ -78,9 +74,9 @@ public class UserController {
             response.put("token", token);
             response.put("user", Map.of(
                     "email", email,
-                    "telephone", telephone,
-                    "prenom", prenom,
                     "nom", nom,
+                    "prenom", prenom,
+                    "telephone", telephone,
                     "status", status
             ));
 
@@ -90,4 +86,5 @@ public class UserController {
             throw new RuntimeException("Authentication failed: " + e.getMessage());
         }
     }
+
 }

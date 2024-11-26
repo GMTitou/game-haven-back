@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: game_haven_postgres
+    environment:
+      POSTGRES_USER: game_haven_user
+      POSTGRES_PASSWORD: game_haven_password
+      POSTGRES_DB: game_haven_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend_network
+
+volumes:
+  postgres_data:
+
+networks:
+  backend_network:
+    driver: bridge

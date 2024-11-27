@@ -1,6 +1,5 @@
 package com.efrei.game_haven_backend.config;
 
-import com.efrei.game_haven_backend.domain.user.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

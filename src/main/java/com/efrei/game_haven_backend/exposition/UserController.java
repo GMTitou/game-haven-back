@@ -1,15 +1,15 @@
 package com.efrei.game_haven_backend.exposition;
 
 import com.efrei.game_haven_backend.domain.Status;
-import com.efrei.game_haven_backend.domain.user.JwtService;
+import com.efrei.game_haven_backend.config.JwtService;
 import com.efrei.game_haven_backend.domain.user.User;
 import com.efrei.game_haven_backend.domain.user.UserService;
 import com.efrei.game_haven_backend.infrastructure.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,6 @@ import org.springframework.security.core.Authentication;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -73,11 +72,11 @@ public class UserController {
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
             response.put("user", Map.of(
-                    "email", email,
-                    "nom", nom,
-                    "prenom", prenom,
-                    "telephone", telephone,
-                    "status", status
+                    "email", email != null ? email : "",
+                    "nom", nom != null ? nom : "",
+                    "prenom", prenom != null ? prenom : "",
+                    "telephone", telephone != null ? telephone : "",
+                    "status", status != null ? status.toString() : "UNKNOWN"
             ));
 
             return response;
@@ -85,6 +84,15 @@ public class UserController {
         } catch (AuthenticationException e) {
             throw new RuntimeException("Authentication failed: " + e.getMessage());
         }
+    }
+
+    @PostMapping("/logout")
+    public Map<String, String> logout() {
+        SecurityContextHolder.clearContext();
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Déconnexion réussie");
+        return response;
     }
 
 }

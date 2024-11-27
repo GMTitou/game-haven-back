@@ -1,4 +1,4 @@
-package com.efrei.game_haven_backend.domain.user;
+package com.efrei.game_haven_backend.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

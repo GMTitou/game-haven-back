@@ -20,7 +20,7 @@ public class Jeux {
     private String nom;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "idCategory")
+    @JoinColumn(nullable = false, name = "id_category")
     private Category category;
 
     @Column(nullable = false)

@@ -33,13 +33,13 @@ public class JeuxController {
 //    }
 
     @GetMapping("/pageable")
-    public ResponseEntity<Page<Jeux>> getJeuxPageable(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String searchTerm) {
+    public ResponseEntity<Page<Jeux>> findJeuxByCriteria(
+            @RequestParam(value = "searchTerm", required = false) String searchTerm,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Jeux> jeuxPage = jeuxService.getJeux(searchTerm, pageable);
+        Page<Jeux> jeuxPage = jeuxService.findJeuxByCriteria(searchTerm, pageable);
         return ResponseEntity.ok(jeuxPage);
     }
 }

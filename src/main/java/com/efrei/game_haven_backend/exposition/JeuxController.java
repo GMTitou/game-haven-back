@@ -22,14 +22,24 @@ public class JeuxController {
         return jeuxService.create(jeux);
     }
 
+//    @GetMapping("/pageable")
+//    public ResponseEntity<Page<Jeux>> getJeuxPageable(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size
+//    ) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<Jeux> jeuxPage = jeuxService.getJeux(pageable);
+//        return ResponseEntity.ok(jeuxPage);
+//    }
+
     @GetMapping("/pageable")
     public ResponseEntity<Page<Jeux>> getJeuxPageable(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchTerm) {
+
         Pageable pageable = PageRequest.of(page, size);
-        Page<Jeux> jeuxPage = jeuxService.getJeux(pageable);
+        Page<Jeux> jeuxPage = jeuxService.getJeux(searchTerm, pageable);
         return ResponseEntity.ok(jeuxPage);
     }
-
 }

@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 public class SecurityConfig {
@@ -21,56 +20,29 @@ public class SecurityConfig {
         this.jwtService = jwtService;
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
 //                .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers(
 //                                "/user/authenticate",
 //                                "/user/save",
 //                                "/category/create",
 //                                "/jeux/create",
-//                                "/category/pageable"
+//                                "/category/pageable",
+//                                "/jeux/**"
 //                        ).permitAll()
 //                        .anyRequest().authenticated()
+//
 //                )
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//
-//        http.addFilterBefore(new JwtFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(request -> {
-                    CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.addAllowedOrigin("http://localhost:4200"); // Origine autorisée
-                    configuration.addAllowedMethod("*"); // Autorise toutes les méthodes (GET, POST, etc.)
-                    configuration.addAllowedHeader("*"); // Autorise tous les en-têtes
-                    configuration.setAllowCredentials(true); // Autorise les cookies/credentials
-                    return configuration;
-                }))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/user/authenticate",
-                                "/user/save",
-                                "/category/create",
-                                "/jeux/create",
-                                "/jeux/pageable" // Ajoutez ce chemin ici
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(new JwtFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {

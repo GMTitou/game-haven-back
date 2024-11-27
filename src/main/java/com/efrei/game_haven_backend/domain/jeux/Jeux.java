@@ -1,5 +1,6 @@
 package com.efrei.game_haven_backend.domain.jeux;
 
+import com.efrei.game_haven_backend.domain.Etat;
 import com.efrei.game_haven_backend.domain.category.Category;
 import jakarta.persistence.*;
 
@@ -34,12 +35,19 @@ public class Jeux {
     @Column(nullable = false)
     private int quantite;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Etat etat;
+
+    @Column(nullable = false)
+    private Float note;
+
     @Column(nullable = false)
     private Date dateAjout;
 
     public Jeux() {}
 
-    public Jeux(long id, int reference, String nom, Category category, String image, String description, Float prix, int quantite, Date dateAjout) {
+    public Jeux(long id, int reference, String nom, Category category, String image, String description, Float prix, int quantite, Etat etat, Float note, Date dateAjout) {
         this.id = id;
         this.reference = reference;
         this.nom = nom;
@@ -48,6 +56,8 @@ public class Jeux {
         this.description = description;
         this.prix = prix;
         this.quantite = quantite;
+        this.etat = etat;
+        this.note = note;
         this.dateAjout = dateAjout;
     }
 
@@ -115,11 +125,27 @@ public class Jeux {
         this.quantite = quantite;
     }
 
+    public Etat getEtat() {
+        return etat;
+    }
+
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+    }
+
     public Date getDateAjout() {
         return dateAjout;
     }
 
     public void setDateAjout(Date dateAjout) {
         this.dateAjout = dateAjout;
+    }
+
+    public Float getNote() {
+        return note;
+    }
+
+    public void setNote(Float note) {
+        this.note = note;
     }
 }

@@ -1,10 +1,12 @@
 package com.efrei.game_haven_backend.domain.user;
 
+import com.efrei.game_haven_backend.domain.avis.Avis;
 import com.efrei.game_haven_backend.domain.Role;
 import com.efrei.game_haven_backend.domain.Status;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "utilisateur")
@@ -42,6 +44,9 @@ public class User {
 
     @Column(nullable = false)
     private Date dateCreation;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Avis> avis;
 
     public User() {}
 

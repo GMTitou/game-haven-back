@@ -2,9 +2,12 @@ package com.efrei.game_haven_backend.domain.jeux;
 
 import com.efrei.game_haven_backend.domain.Category;
 import com.efrei.game_haven_backend.domain.Etat;
+import com.efrei.game_haven_backend.domain.avis.Avis;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Jeux {
@@ -45,9 +48,14 @@ public class Jeux {
     @Column(nullable = false)
     private Date dateAjout;
 
+    @OneToMany(mappedBy = "jeux", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Avis> avis;
+
+
     public Jeux() {}
 
-    public Jeux(long id, int reference, String nom, Category category, String image, String description, Float prix, int quantite, Etat etat, Float note, Date dateAjout) {
+    public Jeux(long id, int reference, String nom, Category category, String image, String description, Float prix, int quantite, Etat etat, Float note, Date dateAjout, List<Avis> avis) {
         this.id = id;
         this.reference = reference;
         this.nom = nom;
@@ -59,6 +67,7 @@ public class Jeux {
         this.etat = etat;
         this.note = note;
         this.dateAjout = dateAjout;
+        this.avis = avis;
     }
 
     public long getId() {
@@ -133,6 +142,14 @@ public class Jeux {
         this.etat = etat;
     }
 
+    public Float getNote() {
+        return note;
+    }
+
+    public void setNote(Float note) {
+        this.note = note;
+    }
+
     public Date getDateAjout() {
         return dateAjout;
     }
@@ -141,11 +158,11 @@ public class Jeux {
         this.dateAjout = dateAjout;
     }
 
-    public Float getNote() {
-        return note;
+    public List<Avis> getAvis() {
+        return avis;
     }
 
-    public void setNote(Float note) {
-        this.note = note;
+    public void setAvis(List<Avis> avis) {
+        this.avis = avis;
     }
 }

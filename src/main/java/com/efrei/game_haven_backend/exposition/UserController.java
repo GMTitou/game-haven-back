@@ -55,6 +55,7 @@ public class UserController {
             String prenom = null;
             String telephone = null;
             Status status = null;
+            long id = 0;
 
             if (principal instanceof org.springframework.security.core.userdetails.User) {
                 email = ((org.springframework.security.core.userdetails.User) principal).getUsername();
@@ -65,6 +66,7 @@ public class UserController {
                 prenom = fullUser.getPrenom();
                 telephone = fullUser.getTelephone();
                 status = fullUser.getStatus();
+                id = fullUser.getId();
             }
 
             String token = jwtService.generateToken(authentication);
@@ -76,7 +78,8 @@ public class UserController {
                     "nom", nom != null ? nom : "",
                     "prenom", prenom != null ? prenom : "",
                     "telephone", telephone != null ? telephone : "",
-                    "status", status != null ? status.toString() : "UNKNOWN"
+                    "status", status != null ? status.toString() : "UNKNOWN",
+                    "id", id != 0 ? id : ""
             ));
 
             return response;

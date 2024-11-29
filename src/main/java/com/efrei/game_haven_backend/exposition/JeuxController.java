@@ -37,8 +37,13 @@ public class JeuxController {
         return ResponseEntity.ok(jeuxPage);
     }
 
-    @PutMapping("/reference/{reference}")
+    @PutMapping("/edit/{reference}")
     public Jeux updateJeuxByReference(@PathVariable int reference, @RequestBody Jeux updatedJeux) {
         return jeuxService.updateJeuxByReference(reference, updatedJeux);
+    }
+
+    @DeleteMapping("/delete/{reference}")
+    public void deleteJeuxByReference(@PathVariable int reference) {
+        jeuxService.deleteJeuxByReference(reference);
     }
 }

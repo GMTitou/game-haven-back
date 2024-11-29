@@ -106,4 +106,14 @@ public class JeuxService {
 
         return jeuxRepository.save(existingJeux);
     }
+
+    public void deleteJeuxByReference(int reference) {
+        Jeux existingJeux = jeuxRepository.findByReference(reference);
+
+        if (existingJeux == null) {
+            throw new RuntimeException("Jeu avec la référence " + reference + " non trouvé.");
+        }
+
+        jeuxRepository.delete(existingJeux);
+    }
 }

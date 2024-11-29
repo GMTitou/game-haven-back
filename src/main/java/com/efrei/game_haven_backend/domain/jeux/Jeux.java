@@ -1,7 +1,7 @@
 package com.efrei.game_haven_backend.domain.jeux;
 
+import com.efrei.game_haven_backend.domain.Category;
 import com.efrei.game_haven_backend.domain.Etat;
-import com.efrei.game_haven_backend.domain.category.Category;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -19,14 +19,14 @@ public class Jeux {
     @Column(nullable = false, unique = true)
     private String nom;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "id_category")
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Category category;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String image;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String description;
 
     @Column(nullable = false)

@@ -16,21 +16,15 @@ public class JeuxController {
     @Autowired
     private JeuxService jeuxService;
 
+    @GetMapping("/reference/{reference}")
+    public Jeux getJeuxByReference(@PathVariable("reference") int reference) {
+        return jeuxService.findJeuByReference(reference);
+    }
 
     @PostMapping("/create")
     public Jeux createJeux(@RequestBody Jeux jeux) {
         return jeuxService.create(jeux);
     }
-
-//    @GetMapping("/pageable")
-//    public ResponseEntity<Page<Jeux>> getJeuxPageable(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size
-//    ) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<Jeux> jeuxPage = jeuxService.getJeux(pageable);
-//        return ResponseEntity.ok(jeuxPage);
-//    }
 
     @GetMapping("/pageable")
     public ResponseEntity<Page<Jeux>> findJeuxByCriteria(
@@ -41,5 +35,10 @@ public class JeuxController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Jeux> jeuxPage = jeuxService.findJeuxByCriteria(searchTerm, pageable);
         return ResponseEntity.ok(jeuxPage);
+    }
+
+    @PutMapping("/reference/{reference}")
+    public Jeux updateJeuxByReference(@PathVariable int reference, @RequestBody Jeux updatedJeux) {
+        return jeuxService.updateJeuxByReference(reference, updatedJeux);
     }
 }
